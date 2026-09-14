@@ -20,7 +20,11 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # This forces GitHub to automatically pull down parthenon, singularity-eos, and kokkos
+          submodules: recursive
       - name: Setup OS and compiler
         uses: ./.github/actions/OS_setup
         with:
