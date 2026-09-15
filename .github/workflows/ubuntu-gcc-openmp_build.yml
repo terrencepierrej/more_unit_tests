@@ -25,23 +25,24 @@ jobs:
         with:
           # This forces GitHub to automatically pull down parthenon, singularity-eos, and kokkos
           submodules: recursive
-      - name: Setup OS and compiler
+      - name: Setup OS and compile
         uses: ./.github/actions/OS_setup
         with:
           compiler: 'g++'
-      - name: Compile and build Phoebus
-        uses: ./.github/actions/compile_and_build_phoebus
+          use_mpi: "false"
+      - name: Compile and build Phoebus - openmp
+        uses: ./.github/actions/compile_and_build_phoebus/openmp
         with:
-          compiler: 'g++'
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Setup OS and compiler
-        uses: ./.github/actions/OS_setup
-        with:
-          compiler: 'clang'
-      - name: Compile and build Phoebus
-        uses: ./.github/actions/compile_and_build_phoebus
-        with:
-          compiler: 'clang'
+          compiler: 'g++'        
+      # - name: Checkout Code
+      #   uses: actions/checkout@v4
+      #   with:
+      #     submodules: recursive
+      # - name: Setup OS and compiler
+      #   uses: ./.github/actions/OS_setup
+      #   with:
+      #     compiler: 'clang'
+      # - name: Compile and build Phoebus
+      #   uses: ./.github/actions/compile_and_build_phoebus
+      #   with:
+      #     compiler: 'clang'

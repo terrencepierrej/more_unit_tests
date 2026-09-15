@@ -5,6 +5,10 @@ inputs:
     description: compiler for test
     required: true
     default: 'g++'
+  uses_mpi:
+    description: whether we need to build with MPI or not
+    required: true
+    default: 'true'
 
 runs:
   using: "composite"
@@ -19,9 +23,17 @@ runs:
         sudo apt-get update -qq
         sudo apt-get install -qq --no-install-recommends tzdata
         sudo apt-get install -qq git
-        sudo apt-get install -qq libopenmpi-dev libhdf5-openmpi-dev
+        sudo apt-get install -qq libopenmpi-dev
         sudo apt-get install -qq openssh-client
         sudo apt-get install -qq python3 python3-numpy python3-h5py python3-matplotlib
+      shell: bash
+
+    - if: inputs.uses_mpi == 'true'
+      run:  sudo apt-get install -qq libhdf5-openmpi-dev
+      shell: bash
+
+    - if: inputs.uses_mpi == 'false'
+      run: sudo apt-get install -qq libhdf5-serial-dev
       shell: bash
 
     - if: runner.os == 'Linux' && inputs.compiler == 'g++'

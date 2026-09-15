@@ -12,20 +12,35 @@ runs:
     # - if: runner.os == 'Linux' && inputs.compiler == 'g++'
     - name: Compile various builds of Phoebus using ${{ inputs.compiler }}
       run: |
-        mkdir build_release_cpu_openmp
-        cd build_release_cpu_openmp
-        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=Off -DPHOEBUS_ENABLE_OPENMP=ON ..
-        cmake --build . --parallel 8
-
-        mkdir build_release_cpu_mpi
-        cd build_release_cpu_mpi
-        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=Off ..
-        cmake --build . --parallel 8
-
-        mkdir build_release_cpu_openmp_mpi
-        cd build_release_cpu_openmp_mpi
+        mkdir build_release_minkowski
+        cd build_release_minkowski
         cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=ON ..
         cmake --build . --parallel 8
+        cd ..
+
+        mkdir build_release_monopoleshp
+        cd build_release_monopoleshp
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=MonopoleSph -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=ON ..
+        cmake --build . --parallel 8
+        cd ..
+
+        mkdir build_release_monopolecart
+        cd build_release_monopolecart
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=MonopoleCart -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=ON ..
+        cmake --build . --parallel 8
+        cd ..
+
+        mkdir build_release_fmks
+        cd build_release_fmks
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=FMKS -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=ON ..
+        cmake --build . --parallel 8
+        cd ..
+
+        mkdir build_release_spherical_kerr_schild
+        cd build_release_spherical_kerr_schild
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=SphericalKerrSchild -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=ON ..
+        cmake --build . --parallel 8
+        cd ..
       shell: bash
 
     # - if: runner.os == 'Linux' && inputs.compiler == 'clang'
