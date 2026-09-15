@@ -9,11 +9,22 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - if: runner.os == 'Linux' && inputs.compiler == 'g++'
+    # - if: runner.os == 'Linux' && inputs.compiler == 'g++'
+    - name: Compile various builds of Phoebus using ${{ inputs.compiler }}
       run: |
-        mkdir build_release_cpu
-        cd build_release_cpu
-        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON ..
+        mkdir build_release_cpu_openmp
+        cd build_release_cpu_openmp
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=Off -DPHOEBUS_ENABLE_OPENMP=ON ..
+        cmake --build . --parallel 8
+
+        mkdir build_release_cpu_mpi
+        cd build_release_cpu_mpi
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=Off ..
+        cmake --build . --parallel 8
+
+        mkdir build_release_cpu_openmp_mpi
+        cd build_release_cpu_openmp_mpi
+        cmake -DCMAKE_BUILD_TYPE=Release -DPHOEBUS_GEOMETRY=Minkowski -DPHOEBUS_CACHE_GEOMETRY=ON -DPARTHENON_DISABLE_HDF5_COMPRESSION=ON -DPHOEBUS_ENABLE_MPI=ON -DPHOEBUS_ENABLE_OPENMP=ON ..
         cmake --build . --parallel 8
       shell: bash
 
@@ -44,6 +55,3 @@ runs:
     #     --clibs="-L$(brew --prefix)/opt/llvm/lib"
     #     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(brew --prefix)/opt/llvm/lib:`pwd`/lib
     #   shell: bash
-
-    - run: make -j8
-      shell: bash
