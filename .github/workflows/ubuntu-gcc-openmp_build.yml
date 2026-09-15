@@ -29,7 +29,7 @@ jobs:
         uses: ./.github/actions/OS_setup
         with:
           compiler: 'g++'
-          use_mpi: "false"
+          uses_mpi: "false"
       - name: Compile and build Phoebus - openmp
         uses: ./.github/actions/compile_and_build_phoebus/openmp
         with:
