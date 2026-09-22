@@ -14,6 +14,9 @@ runs:
       run: |
         WRAPPER_PATH=$(realpath ./scripts/bash/nvcc_wrapper)
 
+        # Force the wrapper to fallback to sm_80 during CMake's initial compiler test
+        export NVCC_WRAPPER_DEFAULT_ARCH=sm_80
+
         ARCH_FLAGS="-DKokkos_ARCH_ZEN3=ON -DKokkos_ARCH_AMPERE80=ON -DCMAKE_CUDA_ARCHITECTURES=80"
 
         mkdir build_release_minkowski
