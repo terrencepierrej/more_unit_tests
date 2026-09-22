@@ -255,6 +255,7 @@ TaskCollection PhoebusDriver::RungeKuttaStage(const int stage) {
   if (rad_moments_active) {
     src_names.push_back(radmoment_cons::E::name());
     src_names.push_back(radmoment_cons::F::name());
+    // Add more variables here
   }
   src_w_diag = src_names;
 #if SET_FLUX_SRC_DIAGS
@@ -355,8 +356,8 @@ TaskCollection PhoebusDriver::RungeKuttaStage(const int stage) {
           tl.AddTask(moment_recon, radiation::MomentCalculateOpacities<MDT>, sc0.get());
       auto moment_flux =
           tl.AddTask(get_opacities, radiation::CalculateFluxes<MDT>, sc0.get());
-      auto moment_geom_src = tl.AddTask(none, radiation::CalculateGeometricSource<MDT>,
-                                        sc0.get(), gsrc.get());
+      auto moment_geom_src = 
+          tl.AddTask(none, radiation::CalculateGeometricSource<MDT>, sc0.get(), gsrc.get());
       sndrcv_flux_depend = sndrcv_flux_depend | moment_flux;
       geom_src = geom_src | moment_geom_src;
     }
