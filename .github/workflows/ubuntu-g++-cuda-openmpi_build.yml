@@ -32,6 +32,11 @@ jobs:
       - name: Verify nvcc installation
         run: nvcc --version
 
+      - name: Set global architecture overrides for nvcc_wrapper
+        run: |
+          echo "NVCC_WRAPPER_DEFAULT_ARCH=sm_80" >> $GITHUB_ENV
+        shell: bash
+
       - name: Setup OS and compile
         uses: ./.github/actions/OS_setup
         with:
