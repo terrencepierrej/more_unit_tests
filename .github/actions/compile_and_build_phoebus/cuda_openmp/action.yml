@@ -17,7 +17,7 @@ runs:
         # Force the wrapper to fallback to sm_80 during CMake's initial compiler test
         export NVCC_WRAPPER_DEFAULT_ARCH=sm_80
 
-        ARCH_FLAGS="-DKokkos_ARCH_ZEN3=ON -DKokkos_ARCH_AMPERE80=ON -DCMAKE_CUDA_ARCHITECTURES=80"
+        ARCH_FLAGS="-DKokkos_ARCH_ZEN3=ON -DKokkos_ARCH_AMPERE80=ON -DCMAKE_CUDA_ARCHITECTURES=80 -DCMAKE_CXX_FLAGS=-arch=sm_80"
 
         mkdir build_release_minkowski
         cd build_release_minkowski
