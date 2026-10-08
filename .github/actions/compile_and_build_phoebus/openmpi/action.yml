@@ -9,7 +9,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    # - if: runner.os == 'Linux' && inputs.compiler == 'g++'
     - name: Compile various builds of Phoebus using ${{ inputs.compiler }}
       run: |
         mkdir build_release_minkowski
@@ -42,31 +41,3 @@ runs:
         cmake --build . --parallel 8
         cd ..
       shell: bash
-
-    # - if: runner.os == 'Linux' && inputs.compiler == 'clang'
-    #   run: CC=clang ./configure --prefix=`pwd` --cflags='-fprofile-instr-generate -fcoverage-mapping'
-    #   shell: bash
-
-    # - if: runner.os == 'Linux' && inputs.compiler == 'intel'
-    #   run: |
-    #     source /opt/intel/oneapi/setvars.sh
-    #     printenv >> $GITHUB_ENV
-    #     CC=icx ./configure --prefix=`pwd` --cflags='-ftest-coverage -fprofile-arcs'
-    #     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/lib
-    #   shell: bash
-
-    # - if: runner.os == 'MacOS' && inputs.compiler == 'gcc'
-    #   run: |
-    #     export CC=`ls $(brew --prefix)/opt/gcc/bin/gcc-** | egrep gcc-[0-9]{2}$'`
-    #     ./configure --prefix="$(pwd)" --cflags='-ftest-coverage -fprofile-arcs' --hdf5dir="$(brew --prefix)/opt/hdf5"
-    #     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/lib
-    #   shell: bash
-
-    # - if: runner.os == 'MacOS' && inputs.compiler == 'clang'
-    #   run: |
-    #     export CC=`ls $(brew --prefix)/opt/llvm/bin/clang-** | egrep 'clang-[0-9]{2}$'`
-    #     ./configure --prefix="$(pwd)" --cflags='-ftest-coverage -fprofile-arcs' --hdf5dir=$(brew --prefix)/opt/hdf5 \
-    #     --cflags="-I$(brew --prefix)/opt/llvm/include" \
-    #     --clibs="-L$(brew --prefix)/opt/llvm/lib"
-    #     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(brew --prefix)/opt/llvm/lib:`pwd`/lib
-    #   shell: bash
